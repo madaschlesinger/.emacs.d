@@ -1,5 +1,14 @@
 ;;; init.el --- -*- lexical-binding: t; -*-
 
+;;; Commentary: - AS - hack/hanlde the gdb input/output buffer steal
+
+(defun set-window-undedicated-p (window flag)
+ "Never set window dedicated."
+ flag)
+
+(advice-add 'set-window-dedicated-p :override #'set-window-undedicated-p)
+
+
 ;;; Commentary:
 
 ;; Use this at the top of your .emacs file for local overrides:
@@ -41,6 +50,7 @@
 ;; Some global keybindings
 (global-set-key (kbd "C-j") #'join-line)
 (global-set-key (kbd "M-g") #'goto-line)
+(global-set-key (kbd "C-x C-g") #'gdb)
 (global-set-key (kbd "C-x C-k") #'compile)
 (global-set-key (kbd "<f5>") (expose #'revert-buffer nil t))
 (global-set-key (kbd "C-=") #'calc)
@@ -167,33 +177,33 @@
         (2 'font-lock-function-name-face nil t)))
      :low-priority)))
 
-(use-package evil
-  :ensure t
-  :init (evil-mode)
-  :config
-  (defvar my-leader-map
-    (let ((map (make-sparse-keymap)))
-      (prog1 map
-        (define-key map "w" 'elfeed)
-        (define-key map "m" 'notmuch)
-        (define-key map "g" 'magit-status))))
-  (define-key evil-normal-state-map "\\" my-leader-map)
-  (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
-  (add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
-  (add-to-list 'evil-emacs-state-modes 'special-mode)
-  (add-to-list 'evil-emacs-state-modes 'youtube-dl-list-mode)
-  (evil-select-search-module 'evil-search-module 'evil-search)
-  (add-hook 'with-editor-mode-hook 'evil-insert-state)
-  (add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
-  (add-hook 'c-mode-common-hook (lambda () (modify-syntax-entry ?_ "w"))))
+;; (use-package evil
+;;   :ensure t
+;;   :init (evil-mode)
+;;   :config
+;;   (defvar my-leader-map
+;;     (let ((map (make-sparse-keymap)))
+;;       (prog1 map
+;;         (define-key map "w" 'elfeed)
+;;         (define-key map "m" 'notmuch)
+;;         (define-key map "g" 'magit-status))))
+;;   (define-key evil-normal-state-map "\\" my-leader-map)
+;;   (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
+;;   (add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
+;;   (add-to-list 'evil-emacs-state-modes 'special-mode)
+;;   (add-to-list 'evil-emacs-state-modes 'youtube-dl-list-mode)
+;;   (evil-select-search-module 'evil-search-module 'evil-search)
+;;   (add-hook 'with-editor-mode-hook 'evil-insert-state)
+;;   (add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
+;;   (add-hook 'c-mode-common-hook (lambda () (modify-syntax-entry ?_ "w"))))
 
-(use-package evil-magit
-  :ensure t
-  :init (require 'evil-magit))
+;; (use-package evil-magit
+;;   :ensure t
+;;   :init (require 'evil-magit))
 
-(use-package evil-cleverparens
-  :ensure t
-  :init (setf evil-cleverparens-use-additional-movement-keys nil))
+;; (use-package evil-cleverparens
+;;   :ensure t
+;;   :init (setf evil-cleverparens-use-additional-movement-keys nil))
 
 (use-package time
   :config
