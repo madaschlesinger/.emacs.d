@@ -1,6 +1,8 @@
 ;;; init.el --- -*- lexical-binding: t; -*-
 
-;;; Commentary: - AS - hack/hanlde the gdb input/output buffer steal
+;;; Commentary: - AS - hack/handle the gdb input/output buffer steal
+;;;                  - one issue is the *gud* buffer itself - you
+;;;                  - would like dedicated - but its an ok compromise
 
 (defun set-window-undedicated-p (window flag)
  "Never set window dedicated."
@@ -61,8 +63,8 @@
 (add-to-list 'auto-mode-alist '("[._]bash.*" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("[Mm]akefile" . makefile-gmake-mode))
-(add-to-list 'auto-mode-alist '("\\.mak$" . makefile-gmake-mode))
-(add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("\\.mak$"     . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("\\.make$"    . makefile-gmake-mode))
 
 ;; Frames and fonts
 
@@ -381,21 +383,21 @@
   (when (eq 0 (string-match "wello" (user-login-name)))
     (setf erc-nick "skeeto")))
 
-(use-package cc-mode
-  :defer t
-  :init
-  (defun skeeto/c-hook ()
-    (setf c-basic-offset 4)
-    (c-set-offset 'case-label '+)
-    (c-set-offset 'access-label '/)
-    (c-set-offset 'label '/))
-  :config
-  (progn
-    (define-key java-mode-map (kbd "C-x I") 'add-java-import)
-    (add-hook 'c-mode-hook #'skeeto/c-hook)
-    (add-hook 'c++-mode-hook #'skeeto/c-hook)
-    (add-to-list 'c-default-style '(c-mode . "k&r"))
-    (add-to-list 'c-default-style '(c++-mode . "k&r"))))
+;; (use-package cc-mode
+;;   :defer t
+;;   :init
+;;   (defun skeeto/c-hook ()
+;;     (setf c-basic-offset 4)
+;;     (c-set-offset 'case-label '+)
+;;     (c-set-offset 'access-label '/)
+;;     (c-set-offset 'label '/))
+;;   :config
+;;   (progn
+;;     (define-key java-mode-map (kbd "C-x I") 'add-java-import)
+;;     (add-hook 'c-mode-hook #'skeeto/c-hook)
+;;     (add-hook 'c++-mode-hook #'skeeto/c-hook)
+;;     (add-to-list 'c-default-style '(c-mode . "k&r"))
+;;     (add-to-list 'c-default-style '(c++-mode . "k&r"))))
 
 (use-package nasm-mode
   :ensure t
